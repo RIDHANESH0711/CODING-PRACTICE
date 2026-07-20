@@ -18,9 +18,34 @@ class RCB {
         else{
             System.out.println(i);
         }
-    }*/
-   // array:
-   
+    }
+   // array                                                                                                                                                                                                                     ;
+   Scanner a = new Scanner(System.in);
+   int[] b = new int [5];
+   for(int i=0;i<5;i++){
+    b[i] = a.nextInt();
     
+   }
+   for(int i=0;i<5;i++){
+   System.out.println(b[i]);
+   }
+
+ {
+    Scanner si = new Scanner(System.in);
+    int a = si.nextInt();
+    int[] arr = new int[a];
+    for(int i=0;i<a-1;i++){
+        arr[i]=si.nextInt();
+
+    }*/
+    
+    
+    
+  
+   
+
+
+   
+
 }}
 
