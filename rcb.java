@@ -37,9 +37,44 @@ class RCB {
     for(int i=0;i<a-1;i++){
         arr[i]=si.nextInt();
 
-    }*/
+    }
     
+    // switch case:
+    Scanner a= new Scanner(System.in);
+    char b = a.next().charAt(0);
+    b = Character.toLowerCase(b);
+    switch(b){
+    case 'R':
+        System.out.print("STOP");
+        break;
+    case 'Y':
+        System.out.print("READY");
+        break;
+    case 'G':
+        System.out.print("GO");
+        break;
+    default:
+        System.out.print("INVALID SIGNAL");          
+        */
     
+    Scanner a = new Scanner(System.in);
+    String b = a.nextLine();
+    switch(b){
+        case "MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY":
+            System.out.print("weekdays");
+            break;
+        case "SATURDAY","SUNDAY":
+            System.out.print("weekend");
+            break;
+        default:
+            System.out.print("invalid entry");  
+
+
+
+    }
+
+
+    }
     
   
    
@@ -47,5 +82,5 @@ class RCB {
 
    
 
-}}
+}
 
