@@ -55,7 +55,7 @@ class RCB {
         break;
     default:
         System.out.print("INVALID SIGNAL");          
-        */
+        
     
     Scanner a = new Scanner(System.in);
     String b = a.nextLine();
@@ -72,6 +72,82 @@ class RCB {
 
 
     }
+     
+    Scanner a = new Scanner(System.in);
+    int b = a.nextInt();
+    switch(b){
+        case 1:
+            System.out.print("JANUARY");
+            break;
+        case 2:
+            System.out.print("FEB");
+            break;
+        case 3:
+            System.out.print("march");
+            break;
+        case 4:
+            System.out.print("april");
+            break;
+        case 5:
+            System.out.print("may");
+
+            break;
+        case 6:
+            System.out.print("june");
+            break;
+        case 7:
+            System.out.print("july");
+            break;
+        case 8:
+            System.out.print("aug");
+            break;
+        case 9:
+            System.out.print("sep");
+            break;
+        case 10:
+            System.out.print("oct");
+            break;
+        case 11:
+            System.out.print("nov");
+            break;
+        case 12:
+            System.out.print("dec");
+            break;
+        default:
+            System.out.print("invalid month");
+
+
+
+    }  */
+    Scanner a = new Scanner (System.in);
+    int b = a.nextInt();
+    int positivecount=0 ;
+    int negativecount=0;
+    int zerocount=0;
+
+    for(int i = 1; i <= b; i++){
+        int c = a.nextInt();
+        if(c>=1){
+            
+            positivecount= positivecount+1;
+        }
+        else if(c<0){
+           ;
+            negativecount= negativecount+1;
+        }
+        else{
+            
+            zerocount= zerocount+1;
+        }
+        
+    }
+    System.out.println("positive count is: "+(double)positivecount/b);
+    System.out.println("negative count is: "+(double)negativecount/b);
+    System.out.println("zero count is: "+(double)zerocount/b);
+
+
+
+     
 
 
     }
