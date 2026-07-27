@@ -118,7 +118,7 @@ class RCB {
 
 
 
-    }  */
+    }  
     Scanner a = new Scanner (System.in);
     int b = a.nextInt();
     int positivecount=0 ;
@@ -145,10 +145,19 @@ class RCB {
     System.out.println("negative count is: "+(double)negativecount/b);
     System.out.println("zero count is: "+(double)zerocount/b);
 
-
-
      
+    Scanner a= new Scanner(System.in);
+    int n = a.nextInt();
+    for(int i=1;i<=n;i++){
+        System.out.println(i);
+    }
 
+     */
+        
+    // to import random number we can write" import java.util.Random" ;
+    
+    // class and object:
+        
 
     }
     

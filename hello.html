@@ -1,0 +1,1127 @@
+import { useState } from "react";
+import {
+  MapPin, Bus, Train, Plane, Clock, X, Star, ChevronRight, Navigation2
+} from "lucide-react";
+
+interface TransportMode {
+  available: boolean;
+  info: string;
+  timings: string[];
+}
+
+interface Place {
+  id: string;
+  name: string;
+  tamil: string;
+  tagline: string;
+  x: number;
+  y: number;
+  category: string;
+  color: string;
+  description: string;
+  highlights: string[];
+  transport: {
+    flight?: TransportMode;
+    train: TransportMode;
+    bus: TransportMode;
+  };
+  distanceFromChennai: string;
+  bestTime: string;
+}
+
+const PLACES: Place[] = [
+  {
+    id: "chennai",
+    name: "Chennai",
+    tamil: "சென்னை",
+    tagline: "The Gateway of South India",
+    x: 328, y: 52,
+    category: "Metro City",
+    color: "#C9850A",
+    description: "Chennai, capital of Tamil Nadu, is a vibrant metropolis on the Coromandel Coast. Marina Beach — the world's longest urban beach — Fort St. George, and a rich blend of Dravidian culture and colonial heritage define this city.",
+    highlights: ["Marina Beach", "Kapaleeshwarar Temple", "Fort St. George", "Government Museum"],
+    transport: {
+      flight: {
+        available: true,
+        info: "Chennai International Airport (MAA)",
+        timings: [
+          "Multiple daily flights from Delhi, Mumbai, Bengaluru",
+          "International: Dubai, Singapore, London, Kuala Lumpur"
+        ]
+      },
+      train: {
+        available: true,
+        info: "Chennai Central & Egmore Stations",
+        timings: [
+          "Rajdhani Exp → Delhi: 06:05 | 29 hrs",
+          "Shatabdi → Coimbatore: 06:00 | 5h 45m",
+          "Intercity → Trichy: 07:10 | 5 hrs"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Koyambedu CMBT – Asia's largest bus terminus",
+        timings: [
+          "→ Madurai: Every 30 min | 7–8 hrs",
+          "→ Trichy: Every 1 hr | 6 hrs",
+          "→ Coimbatore: Every 30 min | 8 hrs",
+          "→ Pondicherry: Every 30 min | 3 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "0 km (Origin)",
+    bestTime: "November – February"
+  },
+  {
+    id: "mahabalipuram",
+    name: "Mahabalipuram",
+    tamil: "மாமல்லபுரம்",
+    tagline: "Shore of Stone & Sea",
+    x: 322, y: 100,
+    category: "UNESCO Heritage",
+    color: "#8B1A1A",
+    description: "A UNESCO World Heritage Site famed for 7th–8th century Pallava rock-cut cave temples, the Shore Temple rising from the sea, and the Five Rathas. A coastal marvel just 60 km south of Chennai.",
+    highlights: ["Shore Temple", "Five Rathas", "Arjuna's Penance", "Krishna's Butter Ball"],
+    transport: {
+      train: {
+        available: true,
+        info: "Chengalpattu Junction (nearest, 29 km)",
+        timings: [
+          "Chennai → Chengalpattu: 40 min | Multiple EMU trains",
+          "Chengalpattu → Mahabalipuram: Bus 45 min / Taxi 35 min"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Direct buses from Chennai Broadway",
+        timings: [
+          "→ From Chennai Koyambedu: Every 30 min | 1h 30m",
+          "Route 188 / 188A from Broadway Bus Stand",
+          "Last return bus: 21:30"
+        ]
+      }
+    },
+    distanceFromChennai: "60 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "pondicherry",
+    name: "Pondicherry",
+    tamil: "புதுச்சேரி",
+    tagline: "The French Riviera of the East",
+    x: 305, y: 158,
+    category: "Union Territory",
+    color: "#1B5C4C",
+    description: "Pondicherry blends French colonial boulevards with Tamil culture. The White Town, Auroville — the universal township — and serene beaches make it a uniquely layered destination unlike anywhere else in India.",
+    highlights: ["Promenade Beach", "Auroville", "French Quarter", "Aurobindo Ashram"],
+    transport: {
+      train: {
+        available: true,
+        info: "Pondicherry Railway Station",
+        timings: [
+          "Chennai → Pondicherry: Puducherry Exp 06:10 | 3h 30m",
+          "Villupuram → Pondicherry: 25 min | Multiple trains"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Pondicherry New Bus Stand",
+        timings: [
+          "→ From Chennai: Every 30 min | 3h 30m",
+          "→ From Madurai: 06:00, 08:00, 10:00 | 6 hrs",
+          "→ From Trichy: 06:30, 09:30 | 4 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "150 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "kanchipuram",
+    name: "Kanchipuram",
+    tamil: "காஞ்சிபுரம்",
+    tagline: "City of a Thousand Temples & Silk",
+    x: 270, y: 62,
+    category: "Temple Town",
+    color: "#7C3AED",
+    description: "Kanchipuram, one of Hinduism's seven sacred cities, holds over 1,000 temples and the world-renowned Kanchipuram silk sarees. The Ekambareswarar and Kamakshi Amman temples draw pilgrims from across the world.",
+    highlights: ["Ekambareswarar Temple", "Kamakshi Amman Temple", "Kailasanatha Temple", "Silk Weaving"],
+    transport: {
+      train: {
+        available: true,
+        info: "Kanchipuram Railway Station",
+        timings: [
+          "Chennai → Kanchipuram: 06:00, 07:30, 09:00 | 1h 30m",
+          "Multiple EMU trains daily"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Kanchipuram Town Bus Stand",
+        timings: [
+          "→ From Chennai: Every 15 min | 2 hrs",
+          "→ From Vellore: Every 30 min | 2 hrs",
+          "→ From Tirupati: 06:00, 09:00 | 3 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "75 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "vellore",
+    name: "Vellore",
+    tamil: "வேலூர்",
+    tagline: "City of the Fort & Golden Temple",
+    x: 216, y: 38,
+    category: "Heritage City",
+    color: "#7C3AED",
+    description: "Vellore is home to the dazzling golden-roofed Sripuram Golden Temple and the massive 16th-century Vellore Fort — one of the finest examples of military architecture in South India.",
+    highlights: ["Sripuram Golden Temple", "Vellore Fort", "Jalakanteswarar Temple", "CMC Hospital"],
+    transport: {
+      train: {
+        available: true,
+        info: "Katpadi Junction (8 km from Vellore city)",
+        timings: [
+          "Chennai → Katpadi: 1h 30m | Multiple trains daily",
+          "Bangalore → Katpadi: 3 hrs | Multiple trains daily"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Vellore Bus Stand",
+        timings: [
+          "→ From Chennai: Every 15 min | 2h 30m",
+          "→ From Bangalore: Every 30 min | 3 hrs",
+          "→ From Tirupati: Every 30 min | 1h 30m"
+        ]
+      }
+    },
+    distanceFromChennai: "145 km",
+    bestTime: "October – February"
+  },
+  {
+    id: "tiruvannamalai",
+    name: "Tiruvannamalai",
+    tamil: "திருவண்ணாமலை",
+    tagline: "Sacred Mountain of Fire",
+    x: 247, y: 88,
+    category: "Pilgrimage",
+    color: "#C9850A",
+    description: "The ancient Arunachaleswarar Temple sits at the base of the sacred Arunachala Hill. On Karthigai Deepam, a beacon on the hilltop visible for miles draws millions of pilgrims in one of India's most spectacular festivals.",
+    highlights: ["Arunachaleswarar Temple", "Arunachala Girivalam", "Sri Ramana Ashram", "Seshadri Ashram"],
+    transport: {
+      train: {
+        available: true,
+        info: "Tiruvannamalai Railway Station",
+        timings: [
+          "Chennai → Tiruvannamalai: 06:05 | 3h 30m",
+          "Villupuram → Tiruvannamalai: Multiple trains | 1h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Tiruvannamalai New Bus Stand",
+        timings: [
+          "→ From Chennai: Every 30 min | 4 hrs",
+          "→ From Bangalore: Every 1 hr | 4 hrs",
+          "→ From Pondicherry: Every 1 hr | 2h 30m"
+        ]
+      }
+    },
+    distanceFromChennai: "185 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "ooty",
+    name: "Ooty",
+    tamil: "உதகமண்டலம்",
+    tagline: "Queen of Hill Stations",
+    x: 108, y: 175,
+    category: "Hill Station",
+    color: "#166534",
+    description: "Nestled in the Nilgiris at 2,240 m, Ooty is Tamil Nadu's premier hill station. The Nilgiri Mountain Railway — a UNESCO World Heritage Site — chugs through misty tea estates and shola forests on a journey as memorable as the destination.",
+    highlights: ["Nilgiri Mountain Railway", "Botanical Gardens", "Ooty Lake", "Tea Estates"],
+    transport: {
+      train: {
+        available: true,
+        info: "Ooty Station (Nilgiri Mountain Railway – UNESCO)",
+        timings: [
+          "Coimbatore → Mettupalayam: 06:20 | 1h 30m",
+          "Toy Train Mettupalayam → Ooty: 07:10 | 4h 30m",
+          "Book toy train well in advance online"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Ooty Town Bus Stand",
+        timings: [
+          "→ From Coimbatore: Every 30 min | 3 hrs (ghat)",
+          "→ From Bangalore: 06:30, 08:00, 21:30 | 5 hrs",
+          "→ From Chennai: 20:00, 21:00, 22:00 | 11 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "550 km",
+    bestTime: "March – June, Sep – Nov"
+  },
+  {
+    id: "coimbatore",
+    name: "Coimbatore",
+    tamil: "கோயம்புத்தூர்",
+    tagline: "Manchester of South India",
+    x: 103, y: 200,
+    category: "Industrial City",
+    color: "#92400E",
+    description: "Coimbatore, Tamil Nadu's second largest city, is the gateway to Ooty and Kodaikanal. The Isha Yoga Center — an extraordinary architectural and spiritual complex — draws visitors from across the globe.",
+    highlights: ["Isha Yoga Center", "Marudamalai Temple", "Siruvani Waterfalls", "VOC Park & Zoo"],
+    transport: {
+      flight: {
+        available: true,
+        info: "Coimbatore International Airport (CJB)",
+        timings: [
+          "Flights to Chennai, Bangalore, Hyderabad, Mumbai",
+          "International connections via Dubai, Singapore"
+        ]
+      },
+      train: {
+        available: true,
+        info: "Coimbatore Junction",
+        timings: [
+          "Chennai → Coimbatore: Shatabdi 06:00 | 5h 45m",
+          "Bangalore → Coimbatore: 5 hrs | Multiple trains",
+          "Madurai → Coimbatore: 3h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Gandhipuram Central Bus Stand",
+        timings: [
+          "→ From Chennai: Every 30 min | 8 hrs",
+          "→ From Bangalore: Every 30 min | 5 hrs",
+          "→ From Ooty: Every 30 min | 3 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "500 km",
+    bestTime: "October – February"
+  },
+  {
+    id: "yercaud",
+    name: "Yercaud",
+    tamil: "ஏற்காடு",
+    tagline: "Jewel of the South",
+    x: 172, y: 122,
+    category: "Hill Station",
+    color: "#166534",
+    description: "In the Shevaroy Hills at 1,515 m, Yercaud is a serene hill station near Salem famed for orange orchards, coffee plantations, and fragrant eucalyptus forests. Less crowded than Ooty, it is a tranquil retreat.",
+    highlights: ["Yercaud Lake", "Lady's Seat Viewpoint", "Killiyur Falls", "Anna Park"],
+    transport: {
+      train: {
+        available: true,
+        info: "Salem Junction (35 km base; then ghat road)",
+        timings: [
+          "Chennai → Salem: Multiple trains | 4–5 hrs",
+          "Ghat bus Salem → Yercaud: 1h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Salem → Yercaud Bus Stand",
+        timings: [
+          "→ From Salem (ghat road): Every 30 min | 1h 30m",
+          "→ From Chennai: No direct – change at Salem",
+          "→ From Bangalore: No direct – change at Salem"
+        ]
+      }
+    },
+    distanceFromChennai: "340 km",
+    bestTime: "October – June"
+  },
+  {
+    id: "trichy",
+    name: "Trichy",
+    tamil: "திருச்சிராப்பள்ளி",
+    tagline: "Rock Fort & River Delta",
+    x: 210, y: 210,
+    category: "Heritage City",
+    color: "#92400E",
+    description: "Tiruchirappalli is dominated by the spectacular Rock Fort Temple perched atop an 83 m granite outcrop. Nearby Srirangam Island hosts the largest functioning Hindu temple in the world — the Ranganathaswamy Temple.",
+    highlights: ["Rock Fort Temple", "Srirangam Ranganathaswamy Temple", "Cauvery River", "Lourdes Church"],
+    transport: {
+      flight: {
+        available: true,
+        info: "Trichy International Airport (TRZ)",
+        timings: [
+          "Direct flights to Chennai, Bangalore, Delhi",
+          "International: Colombo, Singapore, Kuala Lumpur"
+        ]
+      },
+      train: {
+        available: true,
+        info: "Tiruchirappalli Junction",
+        timings: [
+          "Chennai → Trichy: Rock Fort Exp 07:40 | 5h 30m",
+          "Madurai → Trichy: 1h 30m | Multiple trains",
+          "Coimbatore → Trichy: 3h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Central Bus Stand & Chatram Bus Stand",
+        timings: [
+          "→ From Chennai: Every 30 min | 6 hrs",
+          "→ From Madurai: Every 30 min | 2 hrs",
+          "→ From Coimbatore: Every 1 hr | 4 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "330 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "thanjavur",
+    name: "Thanjavur",
+    tamil: "தஞ்சாவூர்",
+    tagline: "Land of the Great Temple",
+    x: 238, y: 232,
+    category: "UNESCO Heritage",
+    color: "#8B1A1A",
+    description: "The Brihadeeswarar Temple — a UNESCO World Heritage Site completed in 1010 CE — is one of India's greatest architectural achievements. Thanjavur is also the cradle of Carnatic music, Bharatanatyam, and the exquisite Tanjore painting tradition.",
+    highlights: ["Brihadeeswarar Temple", "Thanjavur Palace", "Saraswathi Mahal Library", "Tanjore Painting"],
+    transport: {
+      train: {
+        available: true,
+        info: "Thanjavur Junction",
+        timings: [
+          "Chennai → Thanjavur: Cholan Exp 08:20 | 6h 30m",
+          "Trichy → Thanjavur: 1 hr | Multiple trains",
+          "Madurai → Thanjavur: 2h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "New Bus Stand, Thanjavur",
+        timings: [
+          "→ From Chennai: Every 1 hr | 7 hrs",
+          "→ From Trichy: Every 30 min | 1h 30m",
+          "→ From Madurai: Every 1 hr | 3 hrs"
+        ]
+      }
+    },
+    distanceFromChennai: "350 km",
+    bestTime: "October – February"
+  },
+  {
+    id: "madurai",
+    name: "Madurai",
+    tamil: "மதுரை",
+    tagline: "City That Never Sleeps",
+    x: 190, y: 292,
+    category: "Temple City",
+    color: "#C9850A",
+    description: "One of India's oldest continuously inhabited cities, Madurai is centered on the magnificent Meenakshi Amman Temple — 14 towering gopurams covered in thousands of painted sculptures. The temple corridors pulse with life 24 hours a day.",
+    highlights: ["Meenakshi Amman Temple", "Thirumalai Nayakkar Palace", "Gandhi Memorial Museum", "Vaigai River"],
+    transport: {
+      flight: {
+        available: true,
+        info: "Madurai Airport (IXM)",
+        timings: [
+          "Direct flights to Chennai, Bangalore, Mumbai, Delhi",
+          "IndiGo, Air India, SpiceJet operate daily"
+        ]
+      },
+      train: {
+        available: true,
+        info: "Madurai Junction",
+        timings: [
+          "Chennai → Madurai: Pandian Exp 21:30 | 8 hrs",
+          "Coimbatore → Madurai: 3 hrs | Multiple trains",
+          "Trichy → Madurai: 2 hrs"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Mattuthavani Bus Stand",
+        timings: [
+          "→ From Chennai: Every 30 min | 8–9 hrs",
+          "→ From Coimbatore: Every 30 min | 4 hrs",
+          "→ From Trichy: Every 30 min | 2h 30m"
+        ]
+      }
+    },
+    distanceFromChennai: "460 km",
+    bestTime: "October – March"
+  },
+  {
+    id: "kodaikanal",
+    name: "Kodaikanal",
+    tamil: "கொடைக்கானல்",
+    tagline: "Princess of Hill Stations",
+    x: 158, y: 280,
+    category: "Hill Station",
+    color: "#166534",
+    description: "Perched at 2,133 m in the Palani Hills, Kodaikanal offers the star-shaped Kodaikanal Lake, Pillar Rocks rising dramatically from the mist, and dense shola forests. Tamil Nadu's most romantic and photogenic hill retreat.",
+    highlights: ["Kodaikanal Lake", "Pillar Rocks", "Bryant Park", "Coaker's Walk"],
+    transport: {
+      train: {
+        available: true,
+        info: "Kodai Road Station (80 km base; then ghat)",
+        timings: [
+          "Chennai → Kodai Road: 06:30 | 6h 30m",
+          "Then bus/taxi up the ghat: 2 hrs"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Kodaikanal Bus Stand",
+        timings: [
+          "→ From Madurai: Every 1 hr | 4 hrs (ghat road)",
+          "→ From Coimbatore: 06:30, 10:30, 14:30 | 5 hrs",
+          "→ From Chennai: 20:30, 21:30 | 10 hrs (overnight)"
+        ]
+      }
+    },
+    distanceFromChennai: "530 km",
+    bestTime: "April – June, Sep – Nov"
+  },
+  {
+    id: "rameswaram",
+    name: "Rameswaram",
+    tamil: "இராமேஸ்வரம்",
+    tagline: "Sacred Dham at the Edge of India",
+    x: 295, y: 308,
+    category: "Pilgrimage",
+    color: "#1B5C4C",
+    description: "On Pamban Island, Rameswaram is one of Hinduism's four sacred Char Dham. The Ramanathaswamy Temple with its 1,200-pillared corridor is an architectural wonder. The Pamban Bridge — India's first sea bridge — is an engineering marvel.",
+    highlights: ["Ramanathaswamy Temple", "Pamban Bridge", "Agnitheertham Beach", "Dhanushkodi Ruins"],
+    transport: {
+      train: {
+        available: true,
+        info: "Rameswaram Railway Station",
+        timings: [
+          "Chennai → Rameswaram: Sethu Exp 19:35 | 13 hrs",
+          "Madurai → Rameswaram: 3h 30m | 3 trains daily",
+          "Trichy → Rameswaram: 5 hrs"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Rameswaram Bus Stand",
+        timings: [
+          "→ From Madurai: Every 30 min | 4 hrs",
+          "→ From Trichy: Every 1 hr | 5 hrs",
+          "→ From Chennai: 19:00, 20:00 | 12 hrs (overnight)"
+        ]
+      }
+    },
+    distanceFromChennai: "560 km",
+    bestTime: "October – April"
+  },
+  {
+    id: "kanyakumari",
+    name: "Kanyakumari",
+    tamil: "கன்னியாகுமரி",
+    tagline: "Where Three Oceans Meet",
+    x: 158, y: 502,
+    category: "Coastal Wonder",
+    color: "#1B5C4C",
+    description: "At the very tip of mainland India, the Bay of Bengal, Arabian Sea, and Indian Ocean converge in a breathtaking spectacle. The Vivekananda Rock Memorial, Thiruvalluvar Statue rising from the sea, and legendary sunrise views make this unlike anywhere on Earth.",
+    highlights: ["Vivekananda Rock Memorial", "Thiruvalluvar Statue", "Sunrise & Sunset", "Kumari Amman Temple"],
+    transport: {
+      train: {
+        available: true,
+        info: "Kanyakumari Railway Station",
+        timings: [
+          "Chennai → Kanyakumari: Cape Exp 18:40 | 15 hrs",
+          "Madurai → Kanyakumari: 4 hrs",
+          "Trivandrum → Kanyakumari: 1h 30m"
+        ]
+      },
+      bus: {
+        available: true,
+        info: "Kanyakumari Bus Stand",
+        timings: [
+          "→ From Chennai: 18:00, 19:00, 20:00 | 14 hrs",
+          "→ From Madurai: Every 30 min | 4h 30m",
+          "→ From Trivandrum: Every 30 min | 1h 30m"
+        ]
+      }
+    },
+    distanceFromChennai: "700 km",
+    bestTime: "October – February"
+  }
+];
+
+function TransportCard({
+  icon,
+  title,
+  info,
+  timings,
+  color
+}: {
+  icon: React.ReactNode;
+  title: string;
+  info: string;
+  timings: string[];
+  color: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border overflow-hidden">
+      <div
+        className="flex items-center gap-3 p-4 border-b border-border"
+        style={{ backgroundColor: color + "18" }}
+      >
+        <div
+          className="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0"
+          style={{ backgroundColor: color }}
+        >
+          {icon}
+        </div>
+        <div>
+          <div className="font-semibold text-sm">{title}</div>
+          <div className="text-xs text-muted-foreground">{info}</div>
+        </div>
+      </div>
+      <div className="p-4 space-y-2.5 bg-card">
+        {timings.map((t, i) => (
+          <div key={i} className="flex items-start gap-2.5 text-sm">
+            <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-muted-foreground" />
+            <span className="leading-snug">{t}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [activeTab, setActiveTab] = useState<"about" | "transport">("about");
+  const [hoveredPlace, setHoveredPlace] = useState<string | null>(null);
+
+  const handleSelectPlace = (place: Place) => {
+    setSelectedPlace(place);
+    setActiveTab("about");
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      {/* Header */}
+      <header className="bg-primary text-primary-foreground border-b border-primary/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-full flex items-center justify-center text-primary font-bold text-lg"
+              style={{ backgroundColor: "#C9850A" }}
+            >
+              த
+            </div>
+            <div>
+              <h1 className="font-serif text-lg font-bold tracking-wide leading-tight">
+                Tamil Nadu Tourism
+              </h1>
+              <p
+                className="text-xs font-mono tracking-widest leading-tight"
+                style={{ color: "#C9850A" }}
+              >
+                DISCOVER THE DRAVIDIAN LEGACY
+              </p>
+            </div>
+          </div>
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+            {["Heritage", "Hill Stations", "Pilgrimage", "Transport"].map((n) => (
+              <a
+                key={n}
+                href="#"
+                className="opacity-80 hover:opacity-100 transition-opacity"
+                style={{ color: "#FDF6E3" }}
+              >
+                {n}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <div className="relative bg-primary text-primary-foreground overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-20"
+            style={{ backgroundColor: "#C9850A" }}
+          />
+          <div className="absolute bottom-0 left-1/4 w-56 h-56 rounded-full blur-3xl opacity-10 bg-secondary" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14">
+          <p
+            className="font-mono text-xs tracking-widest mb-2"
+            style={{ color: "#C9850A" }}
+          >
+            EXPLORE
+          </p>
+          <h2 className="font-serif text-5xl sm:text-7xl font-bold mb-4 leading-tight">
+            Tamil Nadu
+          </h2>
+          <p className="text-base sm:text-lg max-w-2xl mb-8" style={{ color: "rgba(253,246,227,0.78)" }}>
+            Land of ancient temples, classical arts, misty hill stations, and sun-drenched coastlines. Touch any location on the map to discover the place and its transport connections.
+          </p>
+          <div className="flex flex-wrap gap-8">
+            {[
+              { val: "15", label: "Destinations" },
+              { val: "3", label: "UNESCO Sites" },
+              { val: "2000+", label: "Years of History" },
+              { val: "880 km", label: "Coastline" }
+            ].map(({ val, label }) => (
+              <div key={label}>
+                <span className="font-mono text-2xl font-bold block" style={{ color: "#C9850A" }}>
+                  {val}
+                </span>
+                <span className="text-sm" style={{ color: "rgba(253,246,227,0.65)" }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Instruction bar */}
+      <div className="bg-accent text-accent-foreground py-2.5 text-center text-sm font-medium font-sans">
+        <Navigation2 className="inline w-4 h-4 mr-2 opacity-80" />
+        Tap or click any marker on the map to explore a destination
+      </div>
+
+      {/* Main layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 items-start">
+
+          {/* ─── SVG Map ─── */}
+          <div className="lg:sticky lg:top-6">
+            <div className="bg-card rounded-2xl border border-border p-5 shadow-md">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-serif text-base font-semibold">Interactive Map of Tamil Nadu</h3>
+                <span className="text-xs font-mono text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+                  {PLACES.length} PLACES
+                </span>
+              </div>
+
+              <div className="relative w-full" style={{ aspectRatio: "380/560" }}>
+                <svg
+                  viewBox="0 0 380 560"
+                  className="w-full h-full"
+                  style={{ filter: "drop-shadow(0 2px 16px rgba(107,31,31,0.10))" }}
+                >
+                  <defs>
+                    <linearGradient id="landGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#F9F0D8" />
+                      <stop offset="100%" stopColor="#EDD8A0" />
+                    </linearGradient>
+                    <linearGradient id="seaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#BFDBFE" />
+                      <stop offset="100%" stopColor="#93C5FD" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Sea background */}
+                  <rect width="380" height="560" fill="url(#seaGrad)" rx="14" />
+
+                  {/* Subtle wave lines */}
+                  {Array.from({ length: 9 }, (_, i) => (
+                    <path
+                      key={i}
+                      d={`M 0 ${40 + i * 58} Q 95 ${35 + i * 58} 190 ${40 + i * 58} T 380 ${40 + i * 58}`}
+                      fill="none"
+                      stroke="#60A5FA"
+                      strokeWidth="0.7"
+                      opacity="0.45"
+                    />
+                  ))}
+
+                  {/* Tamil Nadu landmass */}
+                  <path
+                    d={`
+                      M 95,30
+                      C 115,20 140,14 192,10
+                      C 222,8 260,14 295,26
+                      C 315,34 332,44 338,54
+                      L 345,82
+                      C 343,98 335,112 330,118
+                      L 315,150
+                      C 310,160 306,170 298,200
+                      L 283,236
+                      L 275,268
+                      C 276,278 280,285 282,290
+                      L 302,298 L 312,308
+                      C 304,316 290,320 272,328
+                      L 252,360 L 235,398
+                      C 220,425 205,445 175,484
+                      L 158,506
+                      C 148,490 128,468 112,447
+                      L 96,412
+                      C 83,380 67,342 60,295
+                      C 57,270 62,248 65,225
+                      C 67,205 70,185 65,172
+                      C 68,152 72,130 78,108
+                      L 84,80
+                      Z
+                    `}
+                    fill="url(#landGrad)"
+                    stroke="#C9850A"
+                    strokeWidth="1.8"
+                    strokeLinejoin="round"
+                  />
+
+                  {/* Subtle interior grid lines */}
+                  <g stroke="#C9850A" strokeWidth="0.5" strokeDasharray="4,5" opacity="0.25">
+                    <line x1="95" y1="30" x2="275" y2="62" />
+                    <line x1="190" y1="10" x2="190" y2="215" />
+                    <line x1="108" y1="175" x2="308" y2="162" />
+                    <line x1="80" y1="340" x2="285" y2="240" />
+                    <line x1="158" y1="280" x2="295" y2="280" />
+                  </g>
+
+                  {/* Bay of Bengal label */}
+                  <text
+                    x="360"
+                    y="180"
+                    fontSize="7"
+                    fill="#1E40AF"
+                    opacity="0.7"
+                    transform="rotate(90,360,180)"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                    letterSpacing="1"
+                  >
+                    BAY OF BENGAL
+                  </text>
+
+                  {/* Arabian Sea label */}
+                  <text
+                    x="28"
+                    y="370"
+                    fontSize="7"
+                    fill="#1E40AF"
+                    opacity="0.7"
+                    transform="rotate(-90,28,370)"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                    letterSpacing="1"
+                  >
+                    ARABIAN SEA
+                  </text>
+
+                  {/* Indian Ocean label */}
+                  <text
+                    x="158"
+                    y="545"
+                    fontSize="7"
+                    fill="#1E40AF"
+                    opacity="0.7"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                    letterSpacing="1"
+                  >
+                    INDIAN OCEAN
+                  </text>
+
+                  {/* Location markers */}
+                  {PLACES.map((place) => {
+                    const isSelected = selectedPlace?.id === place.id;
+                    const isHovered = hoveredPlace === place.id;
+                    const active = isSelected || isHovered;
+                    return (
+                      <g
+                        key={place.id}
+                        onClick={() => handleSelectPlace(place)}
+                        onMouseEnter={() => setHoveredPlace(place.id)}
+                        onMouseLeave={() => setHoveredPlace(null)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {/* Outer pulse ring when selected */}
+                        {isSelected && (
+                          <circle
+                            cx={place.x}
+                            cy={place.y}
+                            r="13"
+                            fill={place.color}
+                            opacity="0.22"
+                          />
+                        )}
+                        {/* Marker dot */}
+                        <circle
+                          cx={place.x}
+                          cy={place.y}
+                          r={isSelected ? 8 : isHovered ? 7 : 5.5}
+                          fill={place.color}
+                          stroke="white"
+                          strokeWidth="2"
+                          style={{ transition: "r 0.12s ease" }}
+                        />
+                        {/* Tooltip label on hover/select */}
+                        {active ? (
+                          <g>
+                            <rect
+                              x={place.x + 11}
+                              y={place.y - 10}
+                              width={place.name.length * 6.2 + 14}
+                              height="18"
+                              rx="5"
+                              fill={place.color}
+                            />
+                            <text
+                              x={place.x + 18}
+                              y={place.y + 3}
+                              fontSize="9"
+                              fill="white"
+                              fontFamily="system-ui"
+                              fontWeight="600"
+                            >
+                              {place.name}
+                            </text>
+                          </g>
+                        ) : (
+                          <text
+                            x={place.x}
+                            y={place.y + 16}
+                            fontSize="7"
+                            fill="#374151"
+                            textAnchor="middle"
+                            fontFamily="system-ui"
+                            fontWeight="500"
+                          >
+                            {place.name}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+
+                  {/* Compass rose */}
+                  <g transform="translate(340,498)">
+                    <circle cx="0" cy="0" r="15" fill="white" stroke="#C9850A" strokeWidth="1.5" opacity="0.92" />
+                    <text x="0" y="-5" fontSize="8" fill="#C9850A" textAnchor="middle" fontWeight="700" fontFamily="system-ui">N</text>
+                    <line x1="0" y1="-11" x2="0" y2="-3" stroke="#C9850A" strokeWidth="1.5" />
+                    <line x1="0" y1="3" x2="0" y2="11" stroke="#9CA3AF" strokeWidth="1" />
+                    <line x1="-11" y1="0" x2="11" y2="0" stroke="#9CA3AF" strokeWidth="1" />
+                  </g>
+                </svg>
+              </div>
+
+              {/* Category legend */}
+              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
+                {[
+                  { label: "UNESCO Heritage", color: "#8B1A1A" },
+                  { label: "Pilgrimage", color: "#C9850A" },
+                  { label: "Hill Station", color: "#166534" },
+                  { label: "Heritage City", color: "#92400E" },
+                  { label: "Coastal", color: "#1B5C4C" },
+                  { label: "Temple Town", color: "#7C3AED" }
+                ].map(({ label, color }) => (
+                  <div key={label} className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+                    <span className="text-xs text-muted-foreground">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ─── Detail Panel ─── */}
+          <div>
+            {!selectedPlace ? (
+              <div className="bg-card rounded-2xl border border-border p-8 text-center shadow-sm">
+                <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-7 h-7 text-muted-foreground" />
+                </div>
+                <h3 className="font-serif text-xl font-bold mb-2">Select a Destination</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
+                  Click any marker on the map to explore highlights, history, and complete transport timings.
+                </p>
+
+                <div className="mt-8 text-left">
+                  <p className="text-xs font-mono text-muted-foreground tracking-widest mb-3">
+                    ALL DESTINATIONS
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {PLACES.map((p) => (
+                      <button
+                        key={p.id}
+                        onClick={() => handleSelectPlace(p)}
+                        className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-accent/60 hover:bg-muted/50 transition-all text-left group"
+                      >
+                        <div
+                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: p.color }}
+                        />
+                        <div className="min-w-0">
+                          <div className="text-sm font-semibold truncate">{p.name}</div>
+                          <div className="text-xs text-muted-foreground">{p.category}</div>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 ml-auto text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-md">
+
+                {/* Place hero */}
+                <div
+                  className="relative p-6 pb-5"
+                  style={{
+                    background: `linear-gradient(135deg, ${selectedPlace.color}28 0%, ${selectedPlace.color}10 100%)`
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <span
+                        className="text-xs font-mono px-2.5 py-0.5 rounded-full text-white inline-block mb-3"
+                        style={{ backgroundColor: selectedPlace.color }}
+                      >
+                        {selectedPlace.category}
+                      </span>
+                      <h2 className="font-serif text-3xl font-bold leading-tight">
+                        {selectedPlace.name}
+                      </h2>
+                      <p
+                        className="text-xl leading-tight mt-0.5"
+                        style={{ fontFamily: "'Noto Serif Tamil', serif", color: selectedPlace.color }}
+                      >
+                        {selectedPlace.tamil}
+                      </p>
+                      <p className="text-sm text-muted-foreground italic mt-1.5">
+                        {selectedPlace.tagline}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedPlace(null)}
+                      className="w-8 h-8 rounded-full bg-background/80 border border-border flex items-center justify-center hover:bg-background transition-colors flex-shrink-0"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Quick stats */}
+                  <div className="grid grid-cols-2 gap-3 mt-5">
+                    <div className="bg-background/70 border border-border/60 rounded-xl p-3">
+                      <div className="text-xs font-mono text-muted-foreground mb-1">
+                        FROM CHENNAI
+                      </div>
+                      <div className="font-semibold text-sm">{selectedPlace.distanceFromChennai}</div>
+                    </div>
+                    <div className="bg-background/70 border border-border/60 rounded-xl p-3">
+                      <div className="text-xs font-mono text-muted-foreground mb-1">
+                        BEST TIME TO VISIT
+                      </div>
+                      <div className="font-semibold text-sm">{selectedPlace.bestTime}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex border-b border-border">
+                  {(["about", "transport"] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`flex-1 py-3 text-sm font-medium capitalize transition-all ${
+                        activeTab === tab
+                          ? "border-b-2 text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                      style={activeTab === tab ? { borderColor: selectedPlace.color, color: selectedPlace.color } : {}}
+                    >
+                      {tab === "about" ? "About & Highlights" : "Transport Guide"}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Tab content */}
+                <div className="p-5">
+                  {activeTab === "about" && (
+                    <div>
+                      <p className="text-muted-foreground leading-relaxed text-sm mb-6">
+                        {selectedPlace.description}
+                      </p>
+                      <p className="text-xs font-mono text-muted-foreground tracking-widest mb-3">
+                        TOP HIGHLIGHTS
+                      </p>
+                      <div className="space-y-2">
+                        {selectedPlace.highlights.map((h, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-3 p-3 rounded-xl bg-muted/60 border border-border/40"
+                          >
+                            <Star
+                              className="w-4 h-4 flex-shrink-0"
+                              style={{ color: selectedPlace.color }}
+                              fill={selectedPlace.color}
+                            />
+                            <span className="text-sm font-medium">{h}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "transport" && (
+                    <div className="space-y-4">
+                      <p className="text-xs font-mono text-muted-foreground tracking-widest mb-1">
+                        HOW TO REACH {selectedPlace.name.toUpperCase()}
+                      </p>
+
+                      {selectedPlace.transport.flight && (
+                        <TransportCard
+                          icon={<Plane className="w-5 h-5" />}
+                          title="By Air"
+                          info={selectedPlace.transport.flight.info}
+                          timings={selectedPlace.transport.flight.timings}
+                          color={selectedPlace.color}
+                        />
+                      )}
+
+                      <TransportCard
+                        icon={<Train className="w-5 h-5" />}
+                        title="By Train"
+                        info={selectedPlace.transport.train.info}
+                        timings={selectedPlace.transport.train.timings}
+                        color={selectedPlace.color}
+                      />
+
+                      <TransportCard
+                        icon={<Bus className="w-5 h-5" />}
+                        title="By Bus (TNSTC)"
+                        info={selectedPlace.transport.bus.info}
+                        timings={selectedPlace.transport.bus.timings}
+                        color={selectedPlace.color}
+                      />
+
+                      <p className="text-xs text-muted-foreground text-center pt-2">
+                        * Timings are indicative. Verify with official sources before travel.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-primary text-primary-foreground mt-16 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <p className="font-serif text-xl font-bold mb-1">Tamil Nadu Tourism</p>
+          <p className="text-xs font-mono tracking-widest mb-4" style={{ color: "#C9850A" }}>
+            யாதும் ஊரே யாவரும் கேளிர் — Every land is my homeland, all people are my kin
+          </p>
+          <p className="text-xs opacity-50">
+            Transport timings are indicative. Always verify with TNSTC, Indian Railways, or official airline websites before travel.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}

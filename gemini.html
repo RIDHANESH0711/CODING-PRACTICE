@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamil Nadu Explorer — Discover the Land of Temples</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8982A;
+    --gold-light: #E8B84B;
+    --vermillion: #C0392B;
+    --deep: #1A0E00;
+    --warm-dark: #2C1A08;
+    --copper: #8B4513;
+    --cream: #FFF8ED;
+    --parchment: #F5EDD8;
+    --text: #2C1A08;
+    --muted: #6B5535;
+    --white: #FFFFFF;
+    --shadow: 0 8px 40px rgba(26,14,0,0.18);
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--deep);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ─────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0D0600 0%, #1A0E00 40%, #2C1508 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 60%, rgba(200,152,42,0.12) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C8982A' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .kolam-border {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--vermillion), var(--gold), var(--vermillion), var(--gold), var(--vermillion));
+  }
+
+  .hero-inner {
+    text-align: center;
+    z-index: 2;
+    padding: 0 20px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 108px);
+    font-weight: 900;
+    line-height: 0.92;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .hero-title span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero-title-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3vw, 36px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold-light);
+    opacity: 0.8;
+    margin-bottom: 32px;
+    letter-spacing: 2px;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: rgba(255,248,237,0.6);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .scroll-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+    cursor: pointer;
+  }
+
+  .scroll-cue svg { width: 24px; height: 24px; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ── FLOATING PARTICLES ─────────────────────── */
+  .particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.2; }
+    100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+  }
+
+  /* ── MAP SECTION ────────────────────────────── */
+  .map-section {
+    background: var(--cream);
+    padding: 80px 20px;
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.1;
+  }
+
+  .section-title em {
+    color: var(--vermillion);
+    font-style: italic;
+  }
+
+  .section-sub {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .map-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .map-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, #E8D5B0, #F5EDD8);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--shadow), inset 0 0 0 2px rgba(200,152,42,0.3);
+    overflow: visible;
+  }
+
+  .map-svg-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .map-svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Place pin on map */
+  .place-pin {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .place-pin:hover .pin-circle {
+    fill: var(--vermillion);
+    r: 12;
+  }
+
+  .place-pin:hover .pin-label {
+    font-weight: 700;
+  }
+
+  .pin-circle {
+    fill: var(--gold);
+    stroke: var(--deep);
+    stroke-width: 2;
+    transition: all 0.2s;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+
+  .pin-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    fill: var(--deep);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .pin-icon {
+    font-size: 12px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+  }
+
+  /* Map legend */
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--deep);
+    flex-shrink: 0;
+  }
+
+  /* ── PLACE DETAIL PANEL ─────────────────────── */
+  #place-panel {
+    display: none;
+    position: fixed;
+    top: 0; right: 0;
+    width: min(560px, 100vw);
+    height: 100vh;
+    background: var(--white);
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: -12px 0 60px rgba(0,0,0,0.25);
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #place-panel.open {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .panel-hero {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .panel-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(26,14,0,0.85) 0%, transparent 60%);
+  }
+
+  .panel-hero-text {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 60px;
+  }
+
+  .panel-region {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+  }
+
+  .panel-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: background 0.2s;
+    z-index: 10;
+  }
+
+  .panel-close:hover { background: rgba(255,255,255,0.35); }
+
+  .panel-body {
+    padding: 28px 28px 60px;
+  }
+
+  .panel-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--parchment);
+  }
+
+  /* Tabs */
+  .panel-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--parchment);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .panel-tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    color: var(--vermillion);
+    border-bottom-color: var(--vermillion);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Info cards inside panel */
+  .info-card {
+    background: var(--parchment);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+
+  .info-card-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .info-card-value {
+    font-size: 14px;
+    color: var(--deep);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .info-card-value small {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  /* Travel modes */
+  .travel-modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .travel-mode {
+    background: var(--parchment);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .travel-mode-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .travel-mode-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  .travel-mode-detail {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Food items */
+  .food-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .food-item {
+    background: var(--parchment);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .food-emoji { font-size: 32px; flex-shrink: 0; }
+
+  .food-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 2px;
+  }
+
+  .food-location {
+    font-size: 11px;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--vermillion);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .food-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Hotels */
+  .hotel-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: var(--parchment);
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+
+  .hotel-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .hotel-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--deep);
+    margin-bottom: 3px;
+  }
+
+  .hotel-detail {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .hotel-stars {
+    color: var(--gold);
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  /* Map embed */
+  .map-embed {
+    background: linear-gradient(135deg, #E8D5B0, #D4BC8A);
+    border-radius: 12px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .map-embed-icon { font-size: 40px; margin-bottom: 8px; }
+
+  .map-embed-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--deep);
+  }
+
+  .map-embed-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--vermillion);
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+    width: 100%;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .map-btn:hover { background: #a93226; }
+
+  /* Quick stats bar */
+  .quick-stats {
+    display: flex;
+    gap: 0;
+    background: var(--deep);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 16px 12px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,248,237,0.5);
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* Overlay */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    backdrop-filter: blur(4px);
+  }
+
+  #overlay.show { display: block; }
+
+  /* ── HIGHLIGHTS STRIP ───────────────────────── */
+  .highlights {
+    background: var(--deep);
+    padding: 80px 20px;
+  }
+
+  .highlights-grid {
+    max-width: 1100px;
+    margin: 60px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .highlight-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,152,42,0.2);
+    border-radius: 16px;
+    padding: 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .highlight-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,152,42,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .highlight-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+
+  .highlight-card:hover::after { opacity: 1; }
+
+  .highlight-emoji { font-size: 36px; margin-bottom: 14px; display: block; }
+
+  .highlight-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .highlight-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+
+  .highlight-desc {
+    font-size: 13px;
+    color: rgba(255,248,237,0.5);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  footer {
+    background: #0D0600;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(200,152,42,0.15);
+  }
+
+  footer p {
+    font-size: 13px;
+    color: rgba(255,248,237,0.3);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  footer span { color: var(--gold); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .map-wrapper { padding: 20px; }
+    .panel-body { padding: 20px 16px 60px; }
+    .travel-modes { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closePanel()"></div>
+
+<!-- PLACE DETAIL PANEL -->
+<div id="place-panel">
+  <div class="panel-hero">
+    <div class="panel-hero-img" id="panel-hero-bg" style="width:100%;height:100%;background:linear-gradient(135deg,#C8982A,#8B4513);"></div>
+    <div class="panel-hero-gradient"></div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+    <div class="panel-hero-text">
+      <div class="panel-region" id="panel-region"></div>
+      <div class="panel-title" id="panel-title"></div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="quick-stats" id="panel-stats"></div>
+    <p class="panel-desc" id="panel-desc"></p>
+
+    <div class="panel-tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'overview')">Overview</button>
+      <button class="tab-btn" onclick="switchTab(this,'travel')">Transport & Timings</button>
+      <button class="tab-btn" onclick="switchTab(this,'food')">Famous Food & Spots</button>
+      <button class="tab-btn" onclick="switchTab(this,'hotels')">Stay</button>
+      <button class="tab-btn" onclick="switchTab(this,'map')">Map</button>
+    </div>
+
+    <div class="tab-content active" id="tab-overview" data-tab="overview">
+      <div id="panel-overview"></div>
+    </div>
+
+    <div class="tab-content" id="tab-travel" data-tab="travel">
+      <div class="travel-modes" id="panel-travel"></div>
+      <div id="panel-travel-extra"></div>
+    </div>
+
+    <div class="tab-content" id="tab-food" data-tab="food">
+      <div class="food-grid" id="panel-food"></div>
+    </div>
+
+    <div class="tab-content" id="tab-hotels" data-tab="hotels">
+      <div id="panel-hotels"></div>
+    </div>
+
+    <div class="tab-content" id="tab-map" data-tab="map">
+      <div id="panel-map"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="kolam-border"></div>
+  <div class="particle" style="left:10%;--dur:7s;--delay:0s"></div>
+  <div class="particle" style="left:25%;--dur:9s;--delay:2s"></div>
+  <div class="particle" style="left:45%;--dur:6s;--delay:1s"></div>
+  <div class="particle" style="left:60%;--dur:8s;--delay:3s"></div>
+  <div class="particle" style="left:75%;--dur:7s;--delay:0.5s"></div>
+  <div class="particle" style="left:88%;--dur:10s;--delay:1.5s"></div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Incredible India · Tamil Nadu</div>
+    <h1 class="hero-title">Tamil<br><span>Nadu</span></h1>
+    <div class="hero-title-sub">Land of Temples, Culinary & Heritage</div>
+    <p class="hero-desc">Dravidian temples touching the sky, legendary street foods, end-to-end transport routes — explore everything you need to plan your journey across Tamil Nadu.</p>
+    <div class="scroll-cue" onclick="document.getElementById('map-sec').scrollIntoView()">
+      <span>Explore the Map</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- MAP SECTION -->
+<section class="map-section" id="map-sec">
+  <div class="section-header">
+    <div class="section-eyebrow">Interactive Map</div>
+    <h2 class="section-title">Tap a city to <em>explore</em></h2>
+    <p class="section-sub">Touch any pin to view route schedules, bus/train frequencies, local food hot-spots, and stays.</p>
+  </div>
+
+  <div class="map-container">
+    <div class="map-wrapper">
+      <div class="map-svg-container">
+        <svg viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mapGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#D4B896"/>
+              <stop offset="100%" stop-color="#C4A47C"/>
+            </linearGradient>
+          </defs>
+
+          <!-- State body outline -->
+          <path d="
+            M 110 10 L 180 8 L 240 20 L 270 40 L 290 70 L 295 100 L 285 130 L 300 155 L 305 180 
+            L 298 210 L 280 240 L 270 270 L 255 300 L 240 330 L 215 360 L 195 385 L 175 410 
+            L 160 430 L 148 450 L 140 470 L 135 490 L 128 510 L 120 490 L 112 465 L 100 445 
+            L 88 425 L 72 400 L 60 375 L 48 348 L 40 318 L 38 288 L 45 260 L 50 235 L 42 210 
+            L 40 185 L 48 162 L 55 138 L 52 112 L 62 85 L 75 60 L 90 38 Z
+          " fill="url(#mapGrad)" stroke="#8B6914" stroke-width="2.5" stroke-linejoin="round"/>
+
+          <!-- Chennai -->
+          <g class="place-pin" onclick="openPlace('chennai')" transform="translate(242, 88)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🏛</text>
+            <rect x="-26" y="14" width="52" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Chennai</text>
+          </g>
+
+          <!-- Mahabalipuram -->
+          <g class="place-pin" onclick="openPlace('mahabalipuram')" transform="translate(240, 145)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🗿</text>
+            <rect x="-35" y="14" width="70" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Mahabalipuram</text>
+          </g>
+
+          <!-- Coimbatore -->
+          <g class="place-pin" onclick="openPlace('coimbatore')" transform="translate(88, 175)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🏭</text>
+            <rect x="-35" y="14" width="70" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Coimbatore</text>
+          </g>
+
+          <!-- Ooty -->
+          <g class="place-pin" onclick="openPlace('ooty')" transform="translate(82, 235)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🌿</text>
+            <rect x="-18" y="14" width="36" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Ooty</text>
+          </g>
+
+          <!-- Trichy -->
+          <g class="place-pin" onclick="openPlace('trichy')" transform="translate(170, 240)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🏰</text>
+            <rect x="-22" y="14" width="44" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Trichy</text>
+          </g>
+
+          <!-- Thanjavur -->
+          <g class="place-pin" onclick="openPlace('thanjavur')" transform="translate(205, 270)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🛕</text>
+            <rect x="-30" y="14" width="60" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Thanjavur</text>
+          </g>
+
+          <!-- Madurai -->
+          <g class="place-pin" onclick="openPlace('madurai')" transform="translate(148, 340)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">⛩</text>
+            <rect x="-25" y="14" width="50" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Madurai</text>
+          </g>
+
+          <!-- Tirunelveli -->
+          <g class="place-pin" onclick="openPlace('tirunelveli')" transform="translate(135, 420)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🌾</text>
+            <rect x="-32" y="14" width="64" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Tirunelveli</text>
+          </g>
+
+          <!-- Rameswaram -->
+          <g class="place-pin" onclick="openPlace('rameswaram')" transform="translate(220, 410)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🕌</text>
+            <rect x="-35" y="14" width="70" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="22" fill="#FFF8ED">Rameswaram</text>
+          </g>
+
+          <!-- Kanyakumari -->
+          <g class="place-pin" onclick="openPlace('kanyakumari')" transform="translate(128, 488)">
+            <circle class="pin-circle" cx="0" cy="0" r="9"/>
+            <text class="pin-icon" x="0" y="0">🌅</text>
+            <rect x="-38" y="-24" width="76" height="16" rx="4" fill="rgba(26,14,0,0.7)"/>
+            <text class="pin-label" x="0" y="-16" fill="#FFF8ED">Kanyakumari</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot"></div>Tap any pin to view routes, food & stays</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS STRIP -->
+<section class="highlights">
+  <div class="section-header" style="color:var(--cream)">
+    <div class="section-eyebrow" style="color:var(--gold)">Featured Destinations</div>
+    <h2 class="section-title" style="color:var(--cream)">Icons of Tamil <em>Heritage</em></h2>
+  </div>
+
+  <div class="highlights-grid">
+    <div class="highlight-card" onclick="openPlace('madurai')">
+      <span class="highlight-emoji">⛩️</span>
+      <div class="highlight-tag">Temple City</div>
+      <div class="highlight-name">Madurai</div>
+      <p class="highlight-desc">Meenakshi Amman Temple, famous Jigarthanda stalls & round-the-clock street eateries.</p>
+    </div>
+    <div class="highlight-card" onclick="openPlace('ooty')">
+      <span class="highlight-emoji">🌿</span>
+      <div class="highlight-tag">Hill Station</div>
+      <div class="highlight-name">Ooty</div>
+      <p class="highlight-desc">UNESCO Nilgiri Toy Train, eucalyptus valleys, fresh tea gardens and bakery treats.</p>
+    </div>
+    <div class="highlight-card" onclick="openPlace('thanjavur')">
+      <span class="highlight-emoji">🏯</span>
+      <div class="highlight-tag">UNESCO Site</div>
+      <div class="highlight-name">Thanjavur</div>
+      <p class="highlight-desc">1,000-year-old Brihadeeswarar Temple, Tanjore art, and authentic banana-leaf meals.</p>
+    </div>
+    <div class="highlight-card" onclick="openPlace('trichy')">
+      <span class="highlight-emoji">🏰</span>
+      <div class="highlight-tag">Central Hub</div>
+      <div class="highlight-name">Trichy</div>
+      <p class="highlight-desc">Rockfort Temple, Srirangam, and the direct rail transit nexus for central Tamil Nadu.</p>
+    </div>
+    <div class="highlight-card" onclick="openPlace('chennai')">
+      <span class="highlight-emoji">🏛️</span>
+      <div class="highlight-tag">Capital</div>
+      <div class="highlight-name">Chennai</div>
+      <p class="highlight-desc">Marina Beach, Kilambakkam Bus Terminus, Central Station & iconic filter coffee joints.</p>
+    </div>
+    <div class="highlight-card" onclick="openPlace('tirunelveli')">
+      <span class="highlight-emoji">🌾</span>
+      <div class="highlight-tag">Southern Hub</div>
+      <div class="highlight-name">Tirunelveli</div>
+      <p class="highlight-desc">Nellaiappar Temple, Tamirabarani river basin, and famous Iruttu Kadai Halwa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Crafted with <span>♥</span> for Tamil Nadu Tourism · Bus/Train timings are indicative. Verify with official SETC / IRCTC portals before traveling.</p>
+</footer>
+
+<script>
+const PLACES = {
+  chennai: {
+    name: "Chennai",
+    region: "North Tamil Nadu · Coastal Capital",
+    emoji: "🏛️",
+    color: "#8B2B06",
+    desc: "Chennai is the gateway to South India. A thriving metropolis known for its coastal lifestyle, classical Carnatic music, century-old rail networks, and bustling street markets.",
+    stats: [
+      { value: "10M+", label: "Population" },
+      { value: "2 Hubs", label: "KCBT & Central" },
+      { value: "13km", label: "Marina Beach" },
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "November – February (Pleasant coastal weather)" },
+      { label: "Known For", value: "Marina Beach, Kapaleeshwarar Temple, Fort St. George, T. Nagar shopping" },
+      { label: "Major Transport Hubs", value: "Chennai Central (MAS), Egmore (MS), KCBT (Kilambakkam Bus Terminus)" }
+    ],
+    travel: [
+      { icon: "✈️", name: "By Air", detail: "Chennai Intl (MAA) — Flights every 30 mins to major metros." },
+      { icon: "🚂", name: "By Train", detail: "Central & Egmore Stations — Vande Bharat & Superfast trains daily." },
+      { icon: "🚌", name: "By Bus", detail: "KCBT Bus Stand — SETC buses every 15-30 mins across TN." }
+    ],
+    travelExtra: [
+      { label: "Intercity Bus Schedules", value: "Buses to Madurai/Trichy run heavily between 6:00 PM – 11:30 PM daily." },
+      { label: "Train Timings (Key Routes)", value: "Vande Bharat to Coimbatore: Departs 6:00 AM (Central). Pandian Express to Madurai: Departs 9:40 PM (Egmore)." },
+      { label: "Local Transport", value: "Chennai Metro (5:00 AM - 11:00 PM), Suburban Trains, Ola/Uber, Auto Rickshaws." }
+    ],
+    food: [
+      { emoji: "🫓", name: "Idli & Vadacurry", location: "Mari Hotel, Saidapet / Triplicane Street Stalls", desc: "Classic Chennai breakfast pairing soft idlis with spiced lentil gravy." },
+      { emoji: "☕", name: "Filter Kaapi", location: "Mylapore Degree Coffee / Rayar's Mess", desc: "Aromatic chicory coffee served steaming in traditional brass dabba." },
+      { emoji: "🥘", name: "Chennai Biryani", location: "Ya Mohideen (Pallavaram) / Buhari (Anna Salai)", desc: "Seeraga samba or basmati biryani rich in local spices." }
+    ],
+    hotels: [
+      { icon: "👑", name: "ITC Grand Chola", detail: "5★ Luxury · Guindy", stars: "★★★★★" },
+      { icon: "🏨", name: "Taj Coromandel", detail: "5★ Heritage · Nungambakkam", stars: "★★★★★" },
+      { icon: "🏠", name: "Zostel Chennai", detail: "Budget Hostel · T. Nagar", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Chennai,Tamil+Nadu",
+    coords: "13.0827° N, 80.2707° E"
+  },
+
+  madurai: {
+    name: "Madurai",
+    region: "South Tamil Nadu · Cultural Capital",
+    emoji: "⛩️",
+    color: "#6B2B00",
+    desc: "Madurai is the soul of Tamil culture, continuous in history for over 2,500 years. Centered around the towering Meenakshi Amman Temple, it is renowned for non-stop street food and vibrant night markets.",
+    stats: [
+      { value: "2,500+ Yrs", label: "History" },
+      { value: "Mattuthavani", label: "Main Bus Stand" },
+      { value: "33,000", label: "Temple Sculptures" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – March" },
+      { label: "Known For", value: "Meenakshi Temple, Thirumalai Nayak Palace, Jasmine markets, Night street food" },
+      { label: "Major Transport Hubs", value: "Madurai Junction (MDU), Mattuthavani Bus Stand (MIBT)" }
+    ],
+    travel: [
+      { icon: "✈️", name: "By Air", detail: "Madurai Airport (IXM) — Connected to Chennai, Blr, Mumbai, Colombo." },
+      { icon: "🚂", name: "By Train", detail: "Madurai Jn — Direct trains to Chennai, Bengaluru, Kanyakumari." },
+      { icon: "🚌", name: "By Bus", detail: "Mattuthavani (MIBT) — 24/7 bus connectivity across South India." }
+    ],
+    travelExtra: [
+      { label: "Bus Schedules to Chennai/Kanyakumari", value: "Express buses depart every 15-20 minutes round the clock from Mattuthavani." },
+      { label: "Train Timings", value: "Tejas Express to Chennai: Departs 3:00 PM daily. Vaigai Express: Departs 7:05 AM." },
+      { label: "Local Transport", value: "Town buses, Auto Rickshaws (Negotiate rates near temple area), Cab aggregators." }
+    ],
+    food: [
+      { emoji: "🥤", name: "Famous Jigarthanda", location: "Famous Jigarthanda, Town Hall Road / East Marret St", desc: "Chilled dessert drink made with almond gum, milk, sarsaparilla syrup, and basundi." },
+      { emoji: "🥞", name: "Kari Dosai", location: "Konar Mess, Simmakkal, Madurai", desc: "Thick three-layer dosa topped with egg and minced mutton masala." },
+      { emoji: "🐑", name: "Mutton Chukka & Meals", location: "Amma Mess, Alagar Kovil Main Road", desc: "Fiery spicy mutton roast served with traditional rice meals." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Heritage Madurai", detail: "5★ Resort · Bypass Road", stars: "★★★★★" },
+      { icon: "🏨", name: "Courtyard by Marriott", detail: "4★ · Near K.K. Nagar", stars: "★★★★" },
+      { icon: "🏠", name: "Hotel Supreme", detail: "Budget · West Veli Street", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Madurai,Tamil+Nadu",
+    coords: "9.9252° N, 78.1198° E"
+  },
+
+  ooty: {
+    name: "Ooty",
+    region: "Nilgiri Hills · 2,240m Altitude",
+    emoji: "🌿",
+    color: "#1A5C1A",
+    desc: "Udhagamandalam (Ooty) is the 'Queen of Hill Stations'. Known for sweeping tea estates, cool mountain winds, colonial architecture, and the heritage Nilgiri Toy Train.",
+    stats: [
+      { value: "2,240m", label: "Altitude" },
+      { value: "UNESCO", label: "Toy Train" },
+      { value: "3 Hours", label: "Drive from CBE" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – May (Avoid peak monsoons Jul-Aug)" },
+      { label: "Known For", value: "Nilgiri Mountain Railway, Botanical Gardens, Doddabetta Peak, Ooty Lake" },
+      { label: "Nearest Rail/Air Hub", value: "Mettupalayam (Train), Coimbatore Airport / Station (CBE)" }
+    ],
+    travel: [
+      { icon: "🚂", name: "Toy Train", detail: "UNESCO NMR Train from Mettupalayam to Ooty (Daily 7:10 AM departure)." },
+      { icon: "🚌", name: "By Bus", detail: "TNSTC buses from Coimbatore Central Bus Stand every 15-20 mins." },
+      { icon: "🚗", name: "By Road", detail: "NH-181 via Mettupalayam & Coonoor with 36 hairpin bends." }
+    ],
+    travelExtra: [
+      { label: "Toy Train Schedule", value: "Mettupalayam to Ooty: Departs 7:10 AM (Arrives 12:00 PM). Return Ooty to Mettupalayam: Departs 2:00 PM." },
+      { label: "Bus Timings from Coimbatore", value: "Buses start at 4:00 AM from Gandhipuram Bus Stand, running every 15 mins till 10:00 PM." },
+      { label: "Local Transport", value: "Local sightseeing taxis, rented scooters, local buses between Ooty & Coonoor." }
+    ],
+    food: [
+      { emoji: "🍫", name: "Handmade Chocolates", location: "King Star Chocolates, Commercial Road", desc: "Ooty's legendary fudges, truffles, and rum-and-raisin homemade chocolates." },
+      { emoji: "🥮", name: "Ooty Varkey", location: "West Bakery / C.A. Bakery, Ooty Town", desc: "Crispy, flaky baked pastry snack enjoyed best with hot Nilgiri tea." },
+      { emoji: "☕", name: "Fresh Nilgiri Tea", location: "Doddabetta Tea Factory Outlet", desc: "Aromatic orthodox black tea harvested from high-altitude slopes." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Savoy - IHCL SeleQtions", detail: "5★ Heritage · Sylks Road", stars: "★★★★★" },
+      { icon: "🏨", name: "Sterling Ooty Fern Hill", detail: "4★ Resort · Fern Hill", stars: "★★★★" },
+      { icon: "🏠", name: "Zostel Ooty", detail: "Backpacker Hostel · Tiger Hill", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Ooty,Tamil+Nadu",
+    coords: "11.4102° N, 76.6950° E"
+  },
+
+  trichy: {
+    name: "Trichy (Tiruchirappalli)",
+    region: "Central Tamil Nadu · Cauvery Basin",
+    emoji: "🏰",
+    color: "#7A3B00",
+    desc: "Trichy is a historical hub dominated by the dramatic Rockfort Temple perched atop a ancient 83-meter rock, and Srirangam—the world's largest functioning Hindu temple complex.",
+    stats: [
+      { value: "83m", label: "Rockfort Height" },
+      { value: "Central", label: "TN Junction" },
+      { value: "Srirangam", label: "Island Temple" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "November – February" },
+      { label: "Known For", value: "Rockfort Ucchi Pillayar Temple, Srirangam Ranganathaswamy Temple, Kallanai Dam" },
+      { label: "Major Transport Hubs", value: "Trichy Junction (TPJ), Central Bus Stand, Trichy Intl Airport (TRZ)" }
+    ],
+    travel: [
+      { icon: "✈️", name: "By Air", detail: "Trichy Intl Airport (TRZ) — Direct flights to SEA & Middle East." },
+      { icon: "🚂", name: "By Train", detail: "Trichy Junction — One of South India's busiest railway hubs." },
+      { icon: "🚌", name: "By Bus", detail: "Central Bus Stand — Frequent buses connecting all TN cities." }
+    ],
+    travelExtra: [
+      { label: "Bus Schedules", value: "Buses to Thanjavur (every 10 mins), Madurai (every 15 mins), Chennai (every 20 mins)." },
+      { label: "Train Timings", value: "Rockfort Express to Chennai: Departs 10:30 PM. Cholan Express: Departs 11:00 AM." },
+      { label: "Local Transport", value: "Route Bus #1 (Central Bus Stand to Srirangam every 5 mins), Autos, Cabs." }
+    ],
+    food: [
+      { emoji: "🍛", name: "Trichy Veg Banana Leaf Meals", location: "Shri Sangeethas, Karur Bypass Road / Collectorate Road", desc: "Lavish South Indian meal with variety rice, sambar, rasam, and vatha kuzhambu." },
+      { emoji: "🍗", name: "Koli Varuval (Chicken Roast)", location: "Kannappa Restaurant, Bus Stand Area", desc: "Authentic Chettinad style roasted country chicken." }
+    ],
+    hotels: [
+      { icon: "👑", name: "SRM Hotel", detail: "4★ · Race Course Road", stars: "★★★★" },
+      { icon: "🏨", name: "Breeze Residency", detail: "3★ · Cantonment", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Tiruchirappalli,Tamil+Nadu",
+    coords: "10.7905° N, 78.7047° E"
+  },
+
+  thanjavur: {
+    name: "Thanjavur",
+    region: "Cauvery Delta · Chola Heartland",
+    emoji: "🛕",
+    color: "#5C3D00",
+    desc: "Thanjavur is the cradle of Great Living Chola Temples. Home to the legendary Brihadeeswarar Temple, bronze casting ateliers, Tanjore painting, and rich agricultural traditions.",
+    stats: [
+      { value: "1010 CE", label: "Big Temple Built" },
+      { value: "UNESCO", label: "Heritage Site" },
+      { value: "1 Hr", label: "From Trichy" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – March" },
+      { label: "Known For", value: "Brihadeeswarar Temple (Big Temple), Saraswathi Mahal Library, Tanjore Paintings" },
+      { label: "Nearest Airport", value: "Trichy International Airport (TRZ) — 55 km away" }
+    ],
+    travel: [
+      { icon: "🚂", name: "By Train", detail: "Thanjavur Junction (TJ) — Connected to Chennai, Trichy, Kumbakonam." },
+      { icon: "🚌", name: "By Bus", detail: "New Bus Stand — Direct TNSTC services every 10 mins from Trichy." },
+      { icon: "🚗", name: "By Road", detail: "Smooth 4-lane Highway (NH-83) from Trichy (1 hr drive)." }
+    ],
+    travelExtra: [
+      { label: "Bus Schedules", value: "Trichy-Thanjavur shuttle buses run continuously from 5:00 AM to 11:00 PM." },
+      { label: "Train Timings", value: "Uzhavan Express to Chennai Egmore: Departs 10:15 PM daily." },
+      { label: "Local Transport", value: "Auto-rickshaws, city buses stopping right at Big Temple gate." }
+    ],
+    food: [
+      { emoji: "🍚", name: "Delta Banana Leaf Meals", location: "Sathars / Hotel Vallam, South Rampart", desc: "Hearty delta-style rice with drumstick sambar, rasam, and spicy vegetable poriyals." },
+      { emoji: "🥛", name: "Degree Milk Payasam", location: "Eateries around West Main Street", desc: "Rich condensed milk dessert flavored with cardamom and saffron." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Svatma", detail: "5★ Heritage Luxury · West Main St", stars: "★★★★★" },
+      { icon: "🏨", name: "Hotel Sangam", detail: "4★ · Trichy Road", stars: "★★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Thanjavur,Tamil+Nadu",
+    coords: "10.7870° N, 79.1378° E"
+  },
+
+  coimbatore: {
+    name: "Coimbatore",
+    region: "Western TN · Industrial & Mountain Gateway",
+    emoji: "🏭",
+    color: "#2B4A1A",
+    desc: "Known as the 'Manchester of South India', Coimbatore is an industrial powerhouse located at the foothills of the Western Ghats, serving as the gateway to Ooty, Valparai, and Kerala.",
+    stats: [
+      { value: "3M+", label: "Population" },
+      { value: "112ft", label: "Adiyogi Statue" },
+      { value: "Hub", label: "To Hill Stations" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "September – March" },
+      { label: "Known For", value: "Isha Yoga Center (Adiyogi), Marudamalai Temple, Siruvani Water, Textile shopping" },
+      { label: "Major Transport Hubs", value: "Coimbatore Junction (CBE), Gandhipuram & Ukkadam Bus Terminals, CBE Airport" }
+    ],
+    travel: [
+      { icon: "✈️", name: "By Air", detail: "Coimbatore Airport (CBE) — Domestic & Intl connections." },
+      { icon: "🚂", name: "By Train", detail: "Coimbatore Jn — Connected by Shatabdi, Vande Bharat & express routes." },
+      { icon: "🚌", name: "By Bus", detail: "Gandhipuram (Intercity) & Ukkadam (South TN/Kerala bound) Bus Terminals." }
+    ],
+    travelExtra: [
+      { label: "Isha Yoga Bus Schedule", value: "Bus #14D from Gandhipuram to Isha Foundation runs every 30 mins from 5:30 AM." },
+      { label: "Train Timings", value: "Vande Bharat to Chennai Central: Departs 6:00 AM. Cheran Express: Departs 10:50 PM." },
+      { label: "Local Transport", value: "Red Taxi (Most popular local cab service), App Cabs, City Buses." }
+    ],
+    food: [
+      { emoji: "🍳", name: "Arisi Paruppu Sadam", location: "Haribhavanam, Gandhipuram / Peelamedu", desc: "Coimbatore's signature comfort food—rice cooked together with lentils, ghee, and cumin." },
+      { emoji: "🍗", name: "Pallipalayam Chicken", location: "Junior Kuppanna, Mettupalayam Road", desc: "Fiery dry chicken dish cooked with shallow-fried coconut slices and red chillies." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Radisson Blu Coimbatore", detail: "5★ · Avinashi Road", stars: "★★★★★" },
+      { icon: "🏨", name: "The Residency Towers", detail: "4★ · Avinashi Road", stars: "★★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Coimbatore,Tamil+Nadu",
+    coords: "11.0168° N, 76.9558° E"
+  },
+
+  mahabalipuram: {
+    name: "Mahabalipuram",
+    region: "Coromandel Coast · Shoreline Heritage",
+    emoji: "🗿",
+    color: "#2B4A6B",
+    desc: "A coastal town renowned for ancient 7th-century Pallava rock-cut architecture, monolithic rathas, cave sanctuaries, and relaxed beach resorts along the East Coast Road (ECR).",
+    stats: [
+      { value: "7th C", label: "Pallava Monuments" },
+      { value: "UNESCO", label: "World Heritage" },
+      { value: "55km", label: "From Chennai" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "November – February" },
+      { label: "Known For", value: "Shore Temple, Pancha Rathas, Arjuna's Penance, Krishna's Butterball, Surfing" },
+      { label: "Nearest Airport / Station", value: "Chennai International Airport (55 km) / Chengalpattu Jn (29 km)" }
+    ],
+    travel: [
+      { icon: "🚌", name: "By Bus", detail: "Bus #102, #118, #588 from Chennai (Koyambedu/Adyar) every 15 mins." },
+      { icon: "🚗", name: "By Drive", detail: "Scenic 1.5 hour drive down East Coast Road (ECR) from Chennai." },
+      { icon: "🛺", name: "Local Access", detail: "All major monuments are within 2 km walking distance of town center." }
+    ],
+    travelExtra: [
+      { label: "Bus Schedules from Chennai", value: "Buses depart Adyar bus depot every 10-15 minutes starting from 5:00 AM." },
+      { label: "Local Transport", value: "Bicycles and rental scooters are popular; local auto-rickshaws available." }
+    ],
+    food: [
+      { emoji: "🦀", name: "Grilled Seafood & Crabs", location: "Seashore Garden Restaurant / Fishermen's Grill, Othavadai Street", desc: "Catch-of-the-day fish, prawns, and crabs grilled with coastal spices." },
+      { emoji: "🥞", name: "Crispy Butter Dosa", location: "Moonrakers / Mamalla Bhavan, East Raja St", desc: "Golden thin dosas served with fresh coconut chutney." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Radisson Blu Resort Temple Bay", detail: "5★ Beachfront Resort", stars: "★★★★★" },
+      { icon: "🏨", name: "Chariot Beach Resort", detail: "4★ · Near Five Rathas", stars: "★★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Mahabalipuram,Tamil+Nadu",
+    coords: "12.6269° N, 80.1927° E"
+  },
+
+  rameswaram: {
+    name: "Rameswaram",
+    region: "Pamban Island · Pilgrimage & Coast",
+    emoji: "🕌",
+    color: "#1A3A5C",
+    desc: "An island town connected to mainland India by the landmark Pamban Sea Bridge. Famous as a sacred pilgrimage center, home to long temple corridors, and the gateway to Dhanushkodi.",
+    stats: [
+      { value: "1,212m", label: "Temple Corridor" },
+      { value: "22 Wells", label: "Sacred Bathing" },
+      { value: "18km", label: "To Dhanushkodi" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – April" },
+      { label: "Known For", value: "Ramanathaswamy Temple, Pamban Sea Bridge, Dhanushkodi Ghost Town, Kalam Memorial" },
+      { label: "Nearest Airport", value: "Madurai Airport (IXM) — 170 km away" }
+    ],
+    travel: [
+      { icon: "🚂", name: "By Train", detail: "Rameswaram (RMM) Station — Direct rail connectivity over Pamban Bridge." },
+      { icon: "🚌", name: "By Bus", detail: "TNSTC express buses from Madurai, Trichy, Chennai, Tirunelveli." },
+      { icon: "🚙", name: "To Dhanushkodi", detail: "Shared 4x4 Jeeps and local buses run from Rameswaram stand every 20 mins." }
+    ],
+    travelExtra: [
+      { label: "Train Timings", value: "Sethu Express to Chennai: Departs 8:20 PM. Boat Mail Express: Departs 5:10 PM." },
+      { label: "Dhanushkodi Bus Timings", value: "Government buses to Mukundharayar Chathiram/Dhanushkodi start 6:00 AM to 6:00 PM." },
+      { label: "Local Transport", value: "Auto-rickshaws for temple-to-beach transfers." }
+    ],
+    food: [
+      { emoji: "🍤", name: "Pamban Crab & Prawn Masala", location: "Hotel Gujarat Bhavan Mess / Local Coastal Eateries, West Car St", desc: "Freshly caught Palk Strait seafood spiced with local chilli and fennel." },
+      { emoji: "🫓", name: "South Indian Temple Meals", location: "Ram Nivas / Sabarish Mess, Near Temple North Gate", desc: "Pure vegetarian banana-leaf thali served hot to pilgrims." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Daiwik Hotels Rameswaram", detail: "4★ Pilgrim Hotel · Railway Feeder Road", stars: "★★★★" },
+      { icon: "🏨", name: "Hotel Tamil Nadu (TTDC)", detail: "3★ Govt Property · Near Beach", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Rameswaram,Tamil+Nadu",
+    coords: "9.2876° N, 79.3129° E"
+  },
+
+  tirunelveli: {
+    name: "Tirunelveli",
+    region: "Deep South TN · Tamirabarani River Basin",
+    emoji: "🌾",
+    color: "#4A2B00",
+    desc: "Tirunelveli is an ancient town situated on the banks of the perennial Tamirabarani River, famed for the grand Nellaiappar Temple, Courtallam Waterfalls nearby, and legendary wheat halwa.",
+    stats: [
+      { value: "3,000 Yrs", label: "Tamirabarani Age" },
+      { value: "Nellaiappar", label: "Twin Temple" },
+      { value: "Halwa", label: "Famous Sweet" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – March" },
+      { label: "Known For", value: "Nellaiappar Temple, Iruttu Kadai Halwa, Courtallam Falls (55 km), Manjolai Hills" },
+      { label: "Major Transport Hubs", value: "Tirunelveli Junction (TEN), New Bus Stand (Vennarpettai)" }
+    ],
+    travel: [
+      { icon: "🚂", name: "By Train", detail: "Tirunelveli Jn (TEN) — major rail junction on Chennai-Kanyakumari line." },
+      { icon: "🚌", name: "By Bus", detail: "New Bus Stand — Direct buses to Nagercoil, Madurai, Tenkasi, Trivandrum." },
+      { icon: "✈️", name: "Nearest Air", detail: "Tutuicorin Airport (TCR - 38 km) / Madurai Airport (150 km)." }
+    ],
+    travelExtra: [
+      { label: "Train Timings", value: "Nellai Express to Chennai: Departs 8:05 PM. Vande Bharat to Chennai: Departs 6:00 AM." },
+      { label: "Bus Schedules", value: "Buses to Courtallam/Tenkasi every 15 mins during monsoon season (Jun-Sep)." },
+      { label: "Local Transport", value: "City buses connect Junction to Town (Nellaiappar Temple) every 2 mins." }
+    ],
+    food: [
+      { emoji: "🥮", name: "Iruttu Kadai Wheat Halwa", location: "Iruttu Kadai, Opposite Nellaiappar Temple (Opens 5:00 PM)", desc: "World-famous molten wheat halwa made with ghee and milk from Tamirabarani river basin." },
+      { emoji: "🫕", name: "Sodhi Satham", location: "Nellai Saravana Bhava / Local Messes, Town Area", desc: "Mild coconut-milk stew with vegetables, served with lemon rice during special occasions." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Hotel Apple Tree", detail: "4★ · North Bypass Road", stars: "★★★★" },
+      { icon: "🏨", name: "Hotel Central Balaji", detail: "3★ · Near Railway Station", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Tirunelveli,Tamil+Nadu",
+    coords: "8.7139° N, 77.7567° E"
+  },
+
+  kanyakumari: {
+    name: "Kanyakumari",
+    region: "Southernmost Tip · Three Oceans Confluence",
+    emoji: "🌅",
+    color: "#0D3B5C",
+    desc: "India's southern land's end, where the Arabian Sea, Bay of Bengal, and Indian Ocean meet. Famous for breathtaking sunrises and sunsets over the same horizon.",
+    stats: [
+      { value: "3 Oceans", label: "Confluence" },
+      { value: "133 ft", label: "Thiruvalluvar Statue" },
+      { value: "Land's End", label: "India Tip" }
+    ],
+    overview: [
+      { label: "Best Time to Visit", value: "October – March (Chitra Pournami in April for full moon & sunset)" },
+      { label: "Known For", value: "Vivekananda Rock Memorial, Thiruvalluvar Statue, Kumari Amman Temple, Sunset Point" },
+      { label: "Nearest Airport", value: "Trivandrum International Airport (TRV) — 90 km away" }
+    ],
+    travel: [
+      { icon: "🚂", name: "By Train", detail: "Kanyakumari (CAPE) Station — Terminal point of India's railway network." },
+      { icon: "🚌", name: "By Bus", detail: "Kanyakumari Bus Stand — Direct SETC buses from all across TN & Kerala." },
+      { icon: "⛴️", name: "Rock Ferry", detail: "Poompuhar Shipping Ferries run 8:00 AM – 4:00 PM to Vivekananda Rock." }
+    ],
+    travelExtra: [
+      { label: "Train Timings", value: "Kanyakumari Express to Chennai: Departs 5:20 PM. Himsagar Express to Jammu: Departs 7:05 PM." },
+      { label: "Ferry Schedule", value: "Ferries run continuously from 8:00 AM to 4:00 PM (Queue waiting time 30-45 mins)." },
+      { label: "Local Transport", value: "Walking (Most spots near beach area), Local Auto-rickshaws." }
+    ],
+    food: [
+      { emoji: "🐟", name: "Nanjil Fish Curry & Fry", location: "Hotel Saravana / Coastal Shack eateries near Sunset Point", desc: "Spicy coastal fish curry cooked with coconut and local spices." },
+      { emoji: "🍌", name: "Banana Chips & Pazham Pori", location: "Local Bakery Outlets near Beach Road", desc: "Thinly sliced raw banana chips fried crisp in fresh coconut oil." }
+    ],
+    hotels: [
+      { icon: "👑", name: "Sparsa Resort Kanyakumari", detail: "4★ Beachfront · Beach Road", stars: "★★★★" },
+      { icon: "🏨", name: "Hotel Seaview", detail: "3★ · Near Sunset Point", stars: "★★★" }
+    ],
+    mapUrl: "https://maps.google.com/?q=Kanyakumari,Tamil+Nadu",
+    coords: "8.0883° N, 77.5385° E"
+  }
+};
+
+function openPlace(id) {
+  const p = PLACES[id];
+  if (!p) return;
+
+  document.getElementById('panel-region').textContent = p.region;
+  document.getElementById('panel-title').textContent = p.name;
+  const bg = document.getElementById('panel-hero-bg');
+  bg.style.background = `linear-gradient(135deg, ${p.color}, ${p.color}88)`;
+
+  document.getElementById('panel-stats').innerHTML = p.stats.map(s =>
+    `<div class="stat-item"><span class="stat-value">${s.value}</span><span class="stat-label">${s.label}</span></div>`
+  ).join('');
+
+  document.getElementById('panel-desc').textContent = p.desc;
+
+  document.getElementById('panel-overview').innerHTML = p.overview.map(o =>
+    `<div class="info-card"><div class="info-card-label">${o.label}</div><div class="info-card-value">${o.value}</div></div>`
+  ).join('');
+
+  document.getElementById('panel-travel').innerHTML = p.travel.map(t =>
+    `<div class="travel-mode"><span class="travel-mode-icon">${t.icon}</span><div class="travel-mode-name">${t.name}</div><div class="travel-mode-detail">${t.detail}</div></div>`
+  ).join('');
+
+  document.getElementById('panel-travel-extra').innerHTML = (p.travelExtra || []).map(e =>
+    `<div class="info-card"><div class="info-card-label">${e.label}</div><div class="info-card-value">${e.value}</div></div>`
+  ).join('');
+
+  document.getElementById('panel-food').innerHTML = p.food.map(f =>
+    `<div class="food-item">
+      <span class="food-emoji">${f.emoji}</span>
+      <div>
+        <div class="food-name">${f.name}</div>
+        <div class="food-location">📍 ${f.location}</div>
+        <div class="food-desc">${f.desc}</div>
+      </div>
+    </div>`
+  ).join('');
+
+  document.getElementById('panel-hotels').innerHTML = p.hotels.map(h =>
+    `<div class="hotel-item"><div class="hotel-icon">${h.icon}</div><div><div class="hotel-name">${h.name}</div><div class="hotel-detail">${h.detail}</div><div class="hotel-stars">${h.stars}</div></div></div>`
+  ).join('');
+
+  document.getElementById('panel-map').innerHTML = `
+    <div class="map-embed">
+      <div class="map-embed-icon">🗺️</div>
+      <div class="map-embed-label">${p.name}</div>
+      <div class="map-embed-sub">${p.coords}</div>
+    </div>
+    <a href="${p.mapUrl}" target="_blank" class="map-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Open in Google Maps
+    </a>
+  `;
+
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab-btn').classList.add('active');
+  document.getElementById('tab-overview').classList.add('active');
+
+  const panel = document.getElementById('place-panel');
+  const overlay = document.getElementById('overlay');
+  panel.style.display = 'block';
+  overlay.classList.add('show');
+  requestAnimationFrame(() => panel.classList.add('open'));
+}
+
+function closePanel() {
+  const panel = document.getElementById('place-panel');
+  const overlay = document.getElementById('overlay');
+  panel.classList.remove('open');
+  overlay.classList.remove('show');
+  setTimeout(() => { panel.style.display = 'none'; }, 450);
+}
+
+function switchTab(btn, tabName) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+</script>
+</body>
+</html>
