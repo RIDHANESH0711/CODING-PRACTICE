@@ -1,4 +1,6 @@
-import java.util.Scanner;
+package day2 2;
+
+public class count {import java.util.Scanner;
 class count {
     public static void main(String[] args){
         Scanner a = new Scanner(System.in);
@@ -18,5 +20,9 @@ class count {
         System.out.print("even count ="+counteven);
         System.out.print("odd count"+countodd);
     }
+    
+}
+
+
     
 }
