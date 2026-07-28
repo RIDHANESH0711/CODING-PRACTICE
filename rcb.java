@@ -1,8 +1,8 @@
-import java.util.Scanner;
+/*import java.util.Scanner;
 class RCB {
     public static void main(String[] args) {
       //  System.out.println("roopesh");
-       /* Scanner a=new Scanner(System.in);
+        Scanner a=new Scanner(System.in);
         int m=a.nextInt();
         int n=a.nextInt();
       for(int i=m;i<=n;i++){
@@ -159,7 +159,7 @@ class RCB {
     // class and object:
         
 
-    }
+    
     /*public class addition{
     
         int a = 10;
@@ -177,7 +177,7 @@ class RCB {
 
 
     }
-}*/
+}
 import java.util.Scanner;
 public class find {
     void Rds(int a){
@@ -204,5 +204,29 @@ scan.close();
 
    
 
+}*/
+import java.util.Scanner;
+public class rcb{
+    public static void main(String[]args){
+        Scanner a = new Scanner(System.in);
+        int b = a.nextInt();
+        int counteven =0;
+        int countodd= 0;
+        for(int i=0;i<=b;i++){
+            int c=a.nextInt();
+            if(c%2==0){
+                counteven = counteven + 1;
+            }
+            else
+                countodd = countodd +1;
+
+
+        }
+        System.out.println("even count ="+counteven);
+        System.out.println("odd count="+countodd);
+    }
+    
 }
+
+
 
